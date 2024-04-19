@@ -22,17 +22,26 @@ public class AnalizadorLexico {
         this.historico = new ArrayList<>();
     }
 
+    public void addTokenIdentificador(Integer estado, String token){
+        this.tokensIdentificados.put(estado, token);
+    }
+
     public Token nextToken() {
-        if (posActual >= cadena.length()) return null;
+        if (!hasMoreTokens()) return null;
 
         int estadoActual = 0;
         int lastFinalState = -1;
         int lastFinalPos = -1;
+        boolean exit = false;
+
         StringBuilder lexema = new StringBuilder();
 
-        while (posActual < cadena.length()) {
+
+        while (hasMoreTokens() && !exit) {
+            //TODO: No lo veo
             int entrada = cadena.charAt(posActual) - 'a';  // Simplificación para 'a', 'b', 'c'
             int siguienteEstado = automata.transicion(estadoActual, entrada);
+
 
             if (siguienteEstado == -1) break; // No hay transición válida
 
@@ -42,6 +51,7 @@ public class AnalizadorLexico {
             if (automata.esEstadoFinal(estadoActual)) {
                 lastFinalState = estadoActual;
                 lastFinalPos = posActual;
+                exit = true;
             }
 
             posActual++;
@@ -53,6 +63,7 @@ public class AnalizadorLexico {
 
     public boolean hasMoreTokens() {
         return posActual < cadena.length();
+
     }
 
     public List<Token> getHistorico() {

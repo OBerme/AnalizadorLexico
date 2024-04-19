@@ -15,4 +15,13 @@ public class Token {
     public String getLexema() {
         return lexema;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Token){
+            Token acToken = (Token) obj;
+            return acToken.getIdToken().equals(this.getIdToken()) && acToken.getLexema().equals(this.getLexema());
+        }
+        return false;
+    }
 }
