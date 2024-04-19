@@ -1,6 +1,6 @@
 package automata;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 public class AnalizadorLexicoTest {
     @Test
