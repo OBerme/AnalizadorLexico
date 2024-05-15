@@ -25,9 +25,9 @@ public class AnalizadorLexico {
     }
 
     public Token nextToken() {
-        if (posActual <= cadena.length()) return null;
+        if (isInTail()) return null;
 
-        int estadoActual = this.posActual;
+        int estadoActual = this.actualState;
         int lastFinalState = -1;
         int lastFinalPos = -1;
         int siguienteEstado=0;
@@ -58,12 +58,21 @@ public class AnalizadorLexico {
     }
 
     public boolean hasMoreTokens() {
-        if( posActual < cadena.length() ) return false;
+        if( isInTail() ) return false;
         int posiActu = this.posActual;
 
         Token nexToken = this.nextToken();
         this.posActual = posiActu;
+        if(nexToken == null){
+            int lastState = this.actualState;
+            this.actualState = 0;
 
+            nexToken = this.nextToken();
+            this.posActual = posiActu;
+            if(nexToken == null)
+                this.actualState = lastState;
+            else return true;
+        }
         return nexToken != null;
     }
 
@@ -73,6 +82,10 @@ public class AnalizadorLexico {
 
     public void addTokenIdentificativo(Integer estado, String stateValue){
         this.tokensIdentificados.put(estado, stateValue);
+    }
+
+    public boolean isInTail(){
+        return posActual >= cadena.length();
     }
 }
 

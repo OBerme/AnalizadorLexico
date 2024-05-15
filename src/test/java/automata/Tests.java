@@ -4,5 +4,5 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AnalizadorLexicoTest.class })
+@SuiteClasses({ TestAnalizadorLexico.class })
 public class Tests {}

@@ -15,4 +15,9 @@ public class Token {
     public String getLexema() {
         return lexema;
     }
+
+    @Override
+    public String toString() {
+        return "Token: " + getIdToken() + ", lexema: " + getLexema();
+    }
 }
