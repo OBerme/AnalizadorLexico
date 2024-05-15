@@ -60,19 +60,18 @@ public class AnalizadorLexico {
     public boolean hasMoreTokens() {
         if( isInTail() ) return false;
         int posiActu = this.posActual;
+        int lastState = this.actualState;
 
         Token nexToken = this.nextToken();
-        this.posActual = posiActu;
-        if(nexToken == null){
-            int lastState = this.actualState;
-            this.actualState = 0;
 
+        if(nexToken == null){
+            this.actualState = 0;
             nexToken = this.nextToken();
-            this.posActual = posiActu;
-            if(nexToken == null)
-                this.actualState = lastState;
-            else return true;
         }
+
+        this.posActual = posiActu;
+        this.actualState = lastState;
+
         return nexToken != null;
     }
 
@@ -86,6 +85,17 @@ public class AnalizadorLexico {
 
     public boolean isInTail(){
         return posActual >= cadena.length();
+    }
+
+    public void setCadena(String cadena){
+        this.cadena = cadena;
+        resetAutomata();
+    }
+
+    private void resetAutomata() {
+        this.historico = new ArrayList<>();
+        this.actualState = 0;
+        this.posActual = 0;
     }
 }
 
