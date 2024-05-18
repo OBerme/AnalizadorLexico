@@ -3,6 +3,7 @@ package automata;
 import automata.appInterface.AutomataInterfaceConsole;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,7 +33,7 @@ public class Main {
 //        }
 //
 //        new AutomataInterfaceConsole(automata, tokensIdentif);
-
+        //Second release
         int[][] matrizTransicion = {
                 {1,2,3},
                 {4,8,5},
@@ -46,6 +47,9 @@ public class Main {
         };
         AutomataFinito automata = new AutomataFinitoMatriz(9, 3, matrizTransicion);
         int[] finales = {2,3,4,5,6,8};
+        for(int i = 0; i< finales.length;i++){
+            automata.marcarFinal(finales[i]);
+        }
         HashMap<Integer, String> tokensIdentif = new HashMap<>();
         tokensIdentif.put(2,"C");
         tokensIdentif.put(3,"D");
@@ -54,10 +58,15 @@ public class Main {
         tokensIdentif.put(6,"G");
         tokensIdentif.put(8,"I");
 
-        for(int i = 0; i< finales.length;i++){
-            automata.marcarFinal(finales[i]);
+        //Cambiar la cadena a probar por las cadenas que queramos testear
+        AnalizadorLexico ana = new AnalizadorLexico(automata, "cadena a probar");
+
+        //Aniadimos los tokens identificativos, los que estan dentro del mapa
+        for(Iterator<Integer> keysIte = tokensIdentif.keySet().iterator(); keysIte.hasNext();){
+            Integer nKey = keysIte.next();
+            ana.addTokenIdentificativo(nKey, tokensIdentif.get(nKey));
         }
 
-        new AutomataInterfaceConsole(automata, tokensIdentif);
+
     }
 }

@@ -25,7 +25,7 @@ public class AnalizadorLexico {
     }
 
     public Token nextToken() {
-        if (isInTail()) return null;
+        if (isInTail()) return null; //Si estamos en la cola no hay mas lexemas que analizar
 
         int estadoActual = this.actualState;
         int lastFinalState = -1;
@@ -51,9 +51,10 @@ public class AnalizadorLexico {
         }
 
         posActual = lastFinalPos + 1; // Preparar para el próximo token
-        if(lastFinalState != -1)
+        if(lastFinalState != -1) //Miramos si hemos llegado a un estado final valido, si es valido ponemos que nuestra
+            //posicion actual es la ultima (cambiamos nuestra posicion a la final )
             this.actualState = lastFinalState;
-
+        //Miramos si nuestro estado final es valido y enviamos el token si lo est sum
         return (lastFinalState != -1) ? new Token(tokensIdentificados.get(lastFinalState), lexema.toString()) : null;
     }
 
